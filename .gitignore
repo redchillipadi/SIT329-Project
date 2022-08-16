@@ -1,0 +1,12 @@
+*.pdf
+
+output_files/
+incremental_db/
+db/
+
+*.bak
+*.sdc
+*.qws
+*.qsf
+*.qpf
+*_dump.txt
