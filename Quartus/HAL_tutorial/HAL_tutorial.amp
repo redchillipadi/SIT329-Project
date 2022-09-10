@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><intel_fpga_monitor_program_project version="1.0">
+    <architecture>Nios II</architecture>
+    <system>
+        <sample_system_title>DE0-Nano-SoC Computer for Nios II</sample_system_title>
+        <board>DE0-Nano-SoC</board>
+        <cable>DE-SoC [USB-1]</cable>
+        <processor>Nios2</processor>
+        <reset_processor_during_load>true</reset_processor_during_load>
+        <terminal>JTAG_UART</terminal>
+    </system>
+    <program>
+        <type>Program with Device Driver Support</type>
+        <source_files>
+            <source_file filepath="true">getting_started.c</source_file>
+        </source_files>
+        <options>
+            <bsp_settings_tcl_script filepath="true"/>
+        </options>
+    </program>
+</intel_fpga_monitor_program_project>
