@@ -7,8 +7,9 @@ from timeit import default_timer as timer
 import time
 import numpy as np
 from datetime import timedelta
+import json
 
-def on_connect(client, userdata, flags,rc):
+def on_connect(client, userdata, flags, rc):
     if rc == 0:
         print("Connected success")
     else:
@@ -48,10 +49,15 @@ def distance():
     return distance
 
 def publishState(newState, currentState, timerLapsed):
-    
+    posDict = {"positon":"standing", "time":0 }
+
     temp = " %.2f" % timerLapsed
-    publish.single("PositionCheck", "position " + str(currentState)+ " >> " +
-                   temp +  "   New position: " + str(newState), hostname="test.mosquitto.org")
+    posDict.update({"positon":currentState, "time":temp })
+    
+    toSend = json.dumps(posDict)
+    publish.single("PositionCheck", toSend , hostname="test.mosquitto.org")
+    
+
     
 global start
 state = Position[0]
