@@ -1,5 +1,9 @@
 import paho.mqtt.client as mqtt
 import json
+import csv
+from datetime import datetime
+
+f = open("newCSVwithDATESTAMP", "a", newline="")
 
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
@@ -10,6 +14,14 @@ def on_message(client, userdata, msg):
     #print(str(msg.payload))
     message = msg.payload.decode()
     DictPos = json.loads(message)
+
+
+    dt = datetime.now()
+    temp = (list(DictPos.values())[0] , list(DictPos.values())[1], dt)
+    writer = csv.writer(f)
+    writer.writerow(temp)
+    # message = msg.payload.decode()
+    # DictPos = json.loads(message)
     print(list(DictPos.values())[0]," , ", list(DictPos.values())[1])
 
 
