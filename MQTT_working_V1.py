@@ -12,9 +12,6 @@ def on_connect(client, userdata, flags, rc):
     else:
         print(f"Connected fail with code {rc}")
 
-    
-
-
 
 #GPIO Mode (BOARD / BCM)
 GPIO.setmode(GPIO.BCM)
