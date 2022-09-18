@@ -14,7 +14,6 @@ def on_connect(client, userdata, flags, rc):
     else:
         print(f"Connected fail with code {rc}")
 
-
     
 Position = ["sitting", "standing" , "crossbar" ]
 
@@ -51,10 +50,10 @@ def distance():
 def publishState(newState, currentState, timerLapsed):
     
     temp = " %.2f" % timerLapsed
-    publish.single("PositionCheck", "position " + str(currentState)+ " >> " + temp +  "   New position: " + str(newState), hostname="test.mosquitto.org")
-    start = 0
+    publish.single("PositionCheck", "position " + str(currentState)+ " >> " +
+                   temp +  "   New position: " + str(newState), hostname="test.mosquitto.org")
     
-    
+global start
 state = Position[0]
 connected = 0
 if  __name__ == '__main__':
@@ -68,7 +67,7 @@ if  __name__ == '__main__':
                 #client.loop_forever()
                 connected = 1
                 # start timer to check each state duration   
-                start = timer()
+                start = time.time()
             
             dist = distance()
             av.append(dist)
@@ -76,23 +75,26 @@ if  __name__ == '__main__':
                 check = np.mean(av)
                 if check > 10 and check < 20 and state != Position[2]:
                     print("send mqtt -" + Position[2])
-                    end = timer()
+                    end = time.time()
                     endTime = end - start
                     publishState(Position[2],  state, endTime)
+                    start = end
                     state = Position[2]
                     
                 elif check < 10 and state != Position[1]:
                     print("send mqtt -" + Position[1])
-                    end = timer()
+                    end = time.time()
                     endTime = end - start
                     publishState(Position[1],  state, endTime)
+                    start = end
                     state = Position[1]
 
                 elif check > 20 and state != Position[0]:
                     print("send mqtt -" + Position[0])
-                    end = timer()
+                    end = time.time()
                     endTime = end - start
                     publishState(Position[0],  state, endTime)
+                    start = end
                     state = Position[0]
                     
                 av.pop(0)
