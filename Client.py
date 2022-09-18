@@ -3,7 +3,9 @@ import json
 import csv
 from datetime import datetime
 
-f = open("newCSVwithDATESTAMP", "a", newline="")
+datenow = str(datetime.now())
+name = "Exercise_Log:" + datenow
+f = open(name, "a", newline="")
 
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
@@ -13,16 +15,19 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, msg):
     #print(str(msg.payload))
     message = msg.payload.decode()
+    if message == "End of Session":
+        print(message)
+        f.close()
     DictPos = json.loads(message)
 
-
-    dt = datetime.now()
-    temp = (list(DictPos.values())[0] , list(DictPos.values())[1], dt)
+ 
+    date = datetime.now().date()
+    time1 = datetime.now().time()
+    temp = (list(DictPos.values())[0] , list(DictPos.values())[1], date, time1)
     writer = csv.writer(f)
     writer.writerow(temp)
-    # message = msg.payload.decode()
-    # DictPos = json.loads(message)
     print(list(DictPos.values())[0]," , ", list(DictPos.values())[1])
+
 
 
 client = mqtt.Client()
@@ -30,4 +35,4 @@ client.on_connect = on_connect
 client.on_message = on_message
  
 client.connect("test.mosquitto.org", 1883, 60)
-client.loop_forever()
+client.loop_forever()       

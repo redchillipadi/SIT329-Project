@@ -57,7 +57,7 @@ def publishState(newState, currentState, timerLapsed):
     toSend = json.dumps(posDict)
     publish.single("PositionCheck", toSend , hostname="test.mosquitto.org")
     
-
+ 
     
 global start
 state = Position[0]
