@@ -1,22 +1,24 @@
-# %pip install paho-mqtt
 import paho.mqtt.client as mqtt
- 
+
+
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
     client.subscribe("PositionCheck")
- 
-# check payload 
+
+
+        
+# check payload
 def on_message(client, userdata, msg):
-    print(msg.topic+" "+str(msg.payload))
+    print(str(msg.payload))
+    message = msg.payload.decode()
+    # if "sitting" in message:
+    #     print("User is at low position")
 
-    if msg.payload == "Sitting":
-        print("User is at low position")
+    # if msg.payload == "crossbar":
+    #     print("User is at mid position")
 
-    if msg.payload == "Crossbar":
-        print("User is at mid position")
-
-    if msg.payload == "Standing":
-        print("User is at high position")
+    # if msg.payload == "standing":
+    #     print("User is at high position")
 
 # connent to publisher
 client = mqtt.Client()
