@@ -1,5 +1,14 @@
 	component soc_system is
 		port (
+			adc_channel_0_export    : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
+			adc_channel_1_export    : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
+			adc_channel_2_export    : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
+			adc_channel_3_export    : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
+			adc_channel_4_export    : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
+			adc_channel_5_export    : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
+			adc_channel_6_export    : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
+			adc_channel_7_export    : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
+			adc_leds_export         : out   std_logic_vector(63 downto 0);                    -- export
 			adder_a_export          : out   std_logic_vector(63 downto 0);                    -- export
 			adder_b_export          : out   std_logic_vector(63 downto 0);                    -- export
 			adder_sum_export        : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
@@ -22,20 +31,24 @@
 			memory_mem_dm           : out   std_logic_vector(3 downto 0);                     -- mem_dm
 			memory_oct_rzqin        : in    std_logic                     := 'X';             -- oct_rzqin
 			reset_reset_n           : in    std_logic                     := 'X';             -- reset_n
-			adc_channel_0_export    : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
-			adc_channel_1_export    : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
-			adc_channel_2_export    : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
-			adc_channel_3_export    : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
-			adc_channel_4_export    : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
-			adc_channel_5_export    : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
-			adc_channel_6_export    : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
-			adc_channel_7_export    : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
-			adc_leds_export         : out   std_logic_vector(63 downto 0)                     -- export
+			adc_interface_sclk      : out   std_logic;                                        -- sclk
+			adc_interface_cs_n      : out   std_logic;                                        -- cs_n
+			adc_interface_dout      : in    std_logic                     := 'X';             -- dout
+			adc_interface_din       : out   std_logic                                         -- din
 		);
 	end component soc_system;
 
 	u0 : component soc_system
 		port map (
+			adc_channel_0_export    => CONNECTED_TO_adc_channel_0_export,    --   adc_channel_0.export
+			adc_channel_1_export    => CONNECTED_TO_adc_channel_1_export,    --   adc_channel_1.export
+			adc_channel_2_export    => CONNECTED_TO_adc_channel_2_export,    --   adc_channel_2.export
+			adc_channel_3_export    => CONNECTED_TO_adc_channel_3_export,    --   adc_channel_3.export
+			adc_channel_4_export    => CONNECTED_TO_adc_channel_4_export,    --   adc_channel_4.export
+			adc_channel_5_export    => CONNECTED_TO_adc_channel_5_export,    --   adc_channel_5.export
+			adc_channel_6_export    => CONNECTED_TO_adc_channel_6_export,    --   adc_channel_6.export
+			adc_channel_7_export    => CONNECTED_TO_adc_channel_7_export,    --   adc_channel_7.export
+			adc_leds_export         => CONNECTED_TO_adc_leds_export,         --        adc_leds.export
 			adder_a_export          => CONNECTED_TO_adder_a_export,          --         adder_a.export
 			adder_b_export          => CONNECTED_TO_adder_b_export,          --         adder_b.export
 			adder_sum_export        => CONNECTED_TO_adder_sum_export,        --       adder_sum.export
@@ -58,14 +71,9 @@
 			memory_mem_dm           => CONNECTED_TO_memory_mem_dm,           --                .mem_dm
 			memory_oct_rzqin        => CONNECTED_TO_memory_oct_rzqin,        --                .oct_rzqin
 			reset_reset_n           => CONNECTED_TO_reset_reset_n,           --           reset.reset_n
-			adc_channel_0_export    => CONNECTED_TO_adc_channel_0_export,    --   adc_channel_0.export
-			adc_channel_1_export    => CONNECTED_TO_adc_channel_1_export,    --   adc_channel_1.export
-			adc_channel_2_export    => CONNECTED_TO_adc_channel_2_export,    --   adc_channel_2.export
-			adc_channel_3_export    => CONNECTED_TO_adc_channel_3_export,    --   adc_channel_3.export
-			adc_channel_4_export    => CONNECTED_TO_adc_channel_4_export,    --   adc_channel_4.export
-			adc_channel_5_export    => CONNECTED_TO_adc_channel_5_export,    --   adc_channel_5.export
-			adc_channel_6_export    => CONNECTED_TO_adc_channel_6_export,    --   adc_channel_6.export
-			adc_channel_7_export    => CONNECTED_TO_adc_channel_7_export,    --   adc_channel_7.export
-			adc_leds_export         => CONNECTED_TO_adc_leds_export          --        adc_leds.export
+			adc_interface_sclk      => CONNECTED_TO_adc_interface_sclk,      --   adc_interface.sclk
+			adc_interface_cs_n      => CONNECTED_TO_adc_interface_cs_n,      --                .cs_n
+			adc_interface_dout      => CONNECTED_TO_adc_interface_dout,      --                .dout
+			adc_interface_din       => CONNECTED_TO_adc_interface_din        --                .din
 		);
 

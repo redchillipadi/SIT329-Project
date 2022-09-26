@@ -8,6 +8,10 @@
 			adc_channel_5_export    : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
 			adc_channel_6_export    : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
 			adc_channel_7_export    : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
+			adc_interface_sclk      : out   std_logic;                                        -- sclk
+			adc_interface_cs_n      : out   std_logic;                                        -- cs_n
+			adc_interface_dout      : in    std_logic                     := 'X';             -- dout
+			adc_interface_din       : out   std_logic;                                        -- din
 			adc_leds_export         : out   std_logic_vector(63 downto 0);                    -- export
 			adder_a_export          : out   std_logic_vector(63 downto 0);                    -- export
 			adder_b_export          : out   std_logic_vector(63 downto 0);                    -- export

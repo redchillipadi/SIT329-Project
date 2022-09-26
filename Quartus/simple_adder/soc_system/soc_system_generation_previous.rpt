@@ -10,10 +10,28 @@ Progress: Adding mm_bridge_0 [altera_avalon_mm_bridge 21.1]
 Progress: Parameterizing module mm_bridge_0
 Progress: Adding pio64_in_0 [pio64_in 1.0]
 Progress: Parameterizing module pio64_in_0
+Progress: Adding pio64_in_1 [pio64_in 1.0]
+Progress: Parameterizing module pio64_in_1
+Progress: Adding pio64_in_2 [pio64_in 1.0]
+Progress: Parameterizing module pio64_in_2
+Progress: Adding pio64_in_3 [pio64_in 1.0]
+Progress: Parameterizing module pio64_in_3
+Progress: Adding pio64_in_4 [pio64_in 1.0]
+Progress: Parameterizing module pio64_in_4
+Progress: Adding pio64_in_5 [pio64_in 1.0]
+Progress: Parameterizing module pio64_in_5
+Progress: Adding pio64_in_6 [pio64_in 1.0]
+Progress: Parameterizing module pio64_in_6
+Progress: Adding pio64_in_7 [pio64_in 1.0]
+Progress: Parameterizing module pio64_in_7
+Progress: Adding pio64_in_8 [pio64_in 1.0]
+Progress: Parameterizing module pio64_in_8
 Progress: Adding pio64_out_0 [pio64_out 1.0]
 Progress: Parameterizing module pio64_out_0
 Progress: Adding pio64_out_1 [pio64_out 1.0]
 Progress: Parameterizing module pio64_out_1
+Progress: Adding pio64_out_2 [pio64_out 1.0]
+Progress: Parameterizing module pio64_out_2
 Progress: Building connections
 Progress: Parameterizing connections
 Progress: Validating
@@ -36,10 +54,28 @@ Progress: Adding mm_bridge_0 [altera_avalon_mm_bridge 21.1]
 Progress: Parameterizing module mm_bridge_0
 Progress: Adding pio64_in_0 [pio64_in 1.0]
 Progress: Parameterizing module pio64_in_0
+Progress: Adding pio64_in_1 [pio64_in 1.0]
+Progress: Parameterizing module pio64_in_1
+Progress: Adding pio64_in_2 [pio64_in 1.0]
+Progress: Parameterizing module pio64_in_2
+Progress: Adding pio64_in_3 [pio64_in 1.0]
+Progress: Parameterizing module pio64_in_3
+Progress: Adding pio64_in_4 [pio64_in 1.0]
+Progress: Parameterizing module pio64_in_4
+Progress: Adding pio64_in_5 [pio64_in 1.0]
+Progress: Parameterizing module pio64_in_5
+Progress: Adding pio64_in_6 [pio64_in 1.0]
+Progress: Parameterizing module pio64_in_6
+Progress: Adding pio64_in_7 [pio64_in 1.0]
+Progress: Parameterizing module pio64_in_7
+Progress: Adding pio64_in_8 [pio64_in 1.0]
+Progress: Parameterizing module pio64_in_8
 Progress: Adding pio64_out_0 [pio64_out 1.0]
 Progress: Parameterizing module pio64_out_0
 Progress: Adding pio64_out_1 [pio64_out 1.0]
 Progress: Parameterizing module pio64_out_1
+Progress: Adding pio64_out_2 [pio64_out 1.0]
+Progress: Parameterizing module pio64_out_2
 Progress: Building connections
 Progress: Parameterizing connections
 Progress: Validating
@@ -62,6 +98,15 @@ Info: mm_interconnect_0: "soc_system" instantiated altera_mm_interconnect "mm_in
 Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
 Info: avalon_st_adapter_001: Inserting error_adapter: error_adapter_0
 Info: avalon_st_adapter_002: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_003: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_004: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_005: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_006: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_007: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_008: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_009: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_010: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_011: Inserting error_adapter: error_adapter_0
 Info: mm_interconnect_1: "soc_system" instantiated altera_mm_interconnect "mm_interconnect_1"
 Info: rst_controller: "soc_system" instantiated altera_reset_controller "rst_controller"
 Info: fpga_interfaces: "hps_0" instantiated altera_interface_generator "fpga_interfaces"

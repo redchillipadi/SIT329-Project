@@ -1,4 +1,13 @@
 	soc_system u0 (
+		.adc_channel_0_export    (<connected-to-adc_channel_0_export>),    //   adc_channel_0.export
+		.adc_channel_1_export    (<connected-to-adc_channel_1_export>),    //   adc_channel_1.export
+		.adc_channel_2_export    (<connected-to-adc_channel_2_export>),    //   adc_channel_2.export
+		.adc_channel_3_export    (<connected-to-adc_channel_3_export>),    //   adc_channel_3.export
+		.adc_channel_4_export    (<connected-to-adc_channel_4_export>),    //   adc_channel_4.export
+		.adc_channel_5_export    (<connected-to-adc_channel_5_export>),    //   adc_channel_5.export
+		.adc_channel_6_export    (<connected-to-adc_channel_6_export>),    //   adc_channel_6.export
+		.adc_channel_7_export    (<connected-to-adc_channel_7_export>),    //   adc_channel_7.export
+		.adc_leds_export         (<connected-to-adc_leds_export>),         //        adc_leds.export
 		.adder_a_export          (<connected-to-adder_a_export>),          //         adder_a.export
 		.adder_b_export          (<connected-to-adder_b_export>),          //         adder_b.export
 		.adder_sum_export        (<connected-to-adder_sum_export>),        //       adder_sum.export
@@ -21,14 +30,9 @@
 		.memory_mem_dm           (<connected-to-memory_mem_dm>),           //                .mem_dm
 		.memory_oct_rzqin        (<connected-to-memory_oct_rzqin>),        //                .oct_rzqin
 		.reset_reset_n           (<connected-to-reset_reset_n>),           //           reset.reset_n
-		.adc_channel_0_export    (<connected-to-adc_channel_0_export>),    //   adc_channel_0.export
-		.adc_channel_1_export    (<connected-to-adc_channel_1_export>),    //   adc_channel_1.export
-		.adc_channel_2_export    (<connected-to-adc_channel_2_export>),    //   adc_channel_2.export
-		.adc_channel_3_export    (<connected-to-adc_channel_3_export>),    //   adc_channel_3.export
-		.adc_channel_4_export    (<connected-to-adc_channel_4_export>),    //   adc_channel_4.export
-		.adc_channel_5_export    (<connected-to-adc_channel_5_export>),    //   adc_channel_5.export
-		.adc_channel_6_export    (<connected-to-adc_channel_6_export>),    //   adc_channel_6.export
-		.adc_channel_7_export    (<connected-to-adc_channel_7_export>),    //   adc_channel_7.export
-		.adc_leds_export         (<connected-to-adc_leds_export>)          //        adc_leds.export
+		.adc_interface_sclk      (<connected-to-adc_interface_sclk>),      //   adc_interface.sclk
+		.adc_interface_cs_n      (<connected-to-adc_interface_cs_n>),      //                .cs_n
+		.adc_interface_dout      (<connected-to-adc_interface_dout>),      //                .dout
+		.adc_interface_din       (<connected-to-adc_interface_din>)        //                .din
 	);
 

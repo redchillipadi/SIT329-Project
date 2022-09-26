@@ -12,6 +12,10 @@ module soc_system (
 		input  wire [63:0] adc_channel_5_export,    //   adc_channel_5.export
 		input  wire [63:0] adc_channel_6_export,    //   adc_channel_6.export
 		input  wire [63:0] adc_channel_7_export,    //   adc_channel_7.export
+		output wire        adc_interface_sclk,      //   adc_interface.sclk
+		output wire        adc_interface_cs_n,      //                .cs_n
+		input  wire        adc_interface_dout,      //                .dout
+		output wire        adc_interface_din,       //                .din
 		output wire [63:0] adc_leds_export,         //        adc_leds.export
 		output wire [63:0] adder_a_export,          //         adder_a.export
 		output wire [63:0] adder_b_export,          //         adder_b.export
@@ -93,6 +97,12 @@ module soc_system (
 	wire  [63:0] mm_bridge_0_m0_writedata;                       // mm_bridge_0:m0_writedata -> mm_interconnect_1:mm_bridge_0_m0_writedata
 	wire         mm_bridge_0_m0_write;                           // mm_bridge_0:m0_write -> mm_interconnect_1:mm_bridge_0_m0_write
 	wire   [0:0] mm_bridge_0_m0_burstcount;                      // mm_bridge_0:m0_burstcount -> mm_interconnect_1:mm_bridge_0_m0_burstcount
+	wire  [31:0] mm_interconnect_1_adc_0_adc_slave_readdata;     // adc_0:readdata -> mm_interconnect_1:adc_0_adc_slave_readdata
+	wire         mm_interconnect_1_adc_0_adc_slave_waitrequest;  // adc_0:waitrequest -> mm_interconnect_1:adc_0_adc_slave_waitrequest
+	wire   [2:0] mm_interconnect_1_adc_0_adc_slave_address;      // mm_interconnect_1:adc_0_adc_slave_address -> adc_0:address
+	wire         mm_interconnect_1_adc_0_adc_slave_read;         // mm_interconnect_1:adc_0_adc_slave_read -> adc_0:read
+	wire         mm_interconnect_1_adc_0_adc_slave_write;        // mm_interconnect_1:adc_0_adc_slave_write -> adc_0:write
+	wire  [31:0] mm_interconnect_1_adc_0_adc_slave_writedata;    // mm_interconnect_1:adc_0_adc_slave_writedata -> adc_0:writedata
 	wire         mm_interconnect_1_pio64_out_0_s0_write;         // mm_interconnect_1:pio64_out_0_s0_write -> pio64_out_0:avs_s0_write
 	wire  [63:0] mm_interconnect_1_pio64_out_0_s0_writedata;     // mm_interconnect_1:pio64_out_0_s0_writedata -> pio64_out_0:avs_s0_writedata
 	wire         mm_interconnect_1_pio64_out_1_s0_write;         // mm_interconnect_1:pio64_out_1_s0_write -> pio64_out_1:avs_s0_write
@@ -117,8 +127,30 @@ module soc_system (
 	wire         mm_interconnect_1_pio64_in_8_s0_read;           // mm_interconnect_1:pio64_in_8_s0_read -> pio64_in_8:avs_s0_read
 	wire         mm_interconnect_1_pio64_out_2_s0_write;         // mm_interconnect_1:pio64_out_2_s0_write -> pio64_out_2:avs_s0_write
 	wire  [63:0] mm_interconnect_1_pio64_out_2_s0_writedata;     // mm_interconnect_1:pio64_out_2_s0_writedata -> pio64_out_2:avs_s0_writedata
-	wire         rst_controller_reset_out_reset;                 // rst_controller:reset_out -> [mm_bridge_0:reset, mm_interconnect_0:mm_bridge_0_reset_reset_bridge_in_reset_reset, mm_interconnect_1:mm_bridge_0_reset_reset_bridge_in_reset_reset, pio64_in_0:reset, pio64_in_1:reset, pio64_in_2:reset, pio64_in_3:reset, pio64_in_4:reset, pio64_in_5:reset, pio64_in_6:reset, pio64_in_7:reset, pio64_in_8:reset, pio64_out_0:reset, pio64_out_1:reset, pio64_out_2:reset]
+	wire         rst_controller_reset_out_reset;                 // rst_controller:reset_out -> [adc_0:reset, mm_bridge_0:reset, mm_interconnect_0:mm_bridge_0_reset_reset_bridge_in_reset_reset, mm_interconnect_1:mm_bridge_0_reset_reset_bridge_in_reset_reset, pio64_in_0:reset, pio64_in_1:reset, pio64_in_2:reset, pio64_in_3:reset, pio64_in_4:reset, pio64_in_5:reset, pio64_in_6:reset, pio64_in_7:reset, pio64_in_8:reset, pio64_out_0:reset, pio64_out_1:reset, pio64_out_2:reset]
 	wire         rst_controller_001_reset_out_reset;             // rst_controller_001:reset_out -> mm_interconnect_0:hps_0_h2f_axi_master_agent_clk_reset_reset_bridge_in_reset_reset
+
+	soc_system_adc_0 #(
+		.board          ("DE10-Nano"),
+		.board_rev      ("Autodetect"),
+		.tsclk          (4),
+		.numch          (7),
+		.max10pllmultby (1),
+		.max10plldivby  (1)
+	) adc_0 (
+		.clock       (clk_clk),                                       //                clk.clk
+		.reset       (rst_controller_reset_out_reset),                //              reset.reset
+		.write       (mm_interconnect_1_adc_0_adc_slave_write),       //          adc_slave.write
+		.readdata    (mm_interconnect_1_adc_0_adc_slave_readdata),    //                   .readdata
+		.writedata   (mm_interconnect_1_adc_0_adc_slave_writedata),   //                   .writedata
+		.address     (mm_interconnect_1_adc_0_adc_slave_address),     //                   .address
+		.waitrequest (mm_interconnect_1_adc_0_adc_slave_waitrequest), //                   .waitrequest
+		.read        (mm_interconnect_1_adc_0_adc_slave_read),        //                   .read
+		.adc_sclk    (adc_interface_sclk),                            // external_interface.export
+		.adc_cs_n    (adc_interface_cs_n),                            //                   .export
+		.adc_dout    (adc_interface_dout),                            //                   .export
+		.adc_din     (adc_interface_din)                              //                   .export
+	);
 
 	soc_system_hps_0 #(
 		.F2S_Width (0),
@@ -363,42 +395,48 @@ module soc_system (
 	);
 
 	soc_system_mm_interconnect_1 mm_interconnect_1 (
-		.clk_0_clk_clk                                 (clk_clk),                                    //                               clk_0_clk.clk
-		.mm_bridge_0_reset_reset_bridge_in_reset_reset (rst_controller_reset_out_reset),             // mm_bridge_0_reset_reset_bridge_in_reset.reset
-		.mm_bridge_0_m0_address                        (mm_bridge_0_m0_address),                     //                          mm_bridge_0_m0.address
-		.mm_bridge_0_m0_waitrequest                    (mm_bridge_0_m0_waitrequest),                 //                                        .waitrequest
-		.mm_bridge_0_m0_burstcount                     (mm_bridge_0_m0_burstcount),                  //                                        .burstcount
-		.mm_bridge_0_m0_byteenable                     (mm_bridge_0_m0_byteenable),                  //                                        .byteenable
-		.mm_bridge_0_m0_read                           (mm_bridge_0_m0_read),                        //                                        .read
-		.mm_bridge_0_m0_readdata                       (mm_bridge_0_m0_readdata),                    //                                        .readdata
-		.mm_bridge_0_m0_readdatavalid                  (mm_bridge_0_m0_readdatavalid),               //                                        .readdatavalid
-		.mm_bridge_0_m0_write                          (mm_bridge_0_m0_write),                       //                                        .write
-		.mm_bridge_0_m0_writedata                      (mm_bridge_0_m0_writedata),                   //                                        .writedata
-		.mm_bridge_0_m0_debugaccess                    (mm_bridge_0_m0_debugaccess),                 //                                        .debugaccess
-		.pio64_in_0_s0_read                            (mm_interconnect_1_pio64_in_0_s0_read),       //                           pio64_in_0_s0.read
-		.pio64_in_0_s0_readdata                        (mm_interconnect_1_pio64_in_0_s0_readdata),   //                                        .readdata
-		.pio64_in_1_s0_read                            (mm_interconnect_1_pio64_in_1_s0_read),       //                           pio64_in_1_s0.read
-		.pio64_in_1_s0_readdata                        (mm_interconnect_1_pio64_in_1_s0_readdata),   //                                        .readdata
-		.pio64_in_2_s0_read                            (mm_interconnect_1_pio64_in_2_s0_read),       //                           pio64_in_2_s0.read
-		.pio64_in_2_s0_readdata                        (mm_interconnect_1_pio64_in_2_s0_readdata),   //                                        .readdata
-		.pio64_in_3_s0_read                            (mm_interconnect_1_pio64_in_3_s0_read),       //                           pio64_in_3_s0.read
-		.pio64_in_3_s0_readdata                        (mm_interconnect_1_pio64_in_3_s0_readdata),   //                                        .readdata
-		.pio64_in_4_s0_read                            (mm_interconnect_1_pio64_in_4_s0_read),       //                           pio64_in_4_s0.read
-		.pio64_in_4_s0_readdata                        (mm_interconnect_1_pio64_in_4_s0_readdata),   //                                        .readdata
-		.pio64_in_5_s0_read                            (mm_interconnect_1_pio64_in_5_s0_read),       //                           pio64_in_5_s0.read
-		.pio64_in_5_s0_readdata                        (mm_interconnect_1_pio64_in_5_s0_readdata),   //                                        .readdata
-		.pio64_in_6_s0_read                            (mm_interconnect_1_pio64_in_6_s0_read),       //                           pio64_in_6_s0.read
-		.pio64_in_6_s0_readdata                        (mm_interconnect_1_pio64_in_6_s0_readdata),   //                                        .readdata
-		.pio64_in_7_s0_read                            (mm_interconnect_1_pio64_in_7_s0_read),       //                           pio64_in_7_s0.read
-		.pio64_in_7_s0_readdata                        (mm_interconnect_1_pio64_in_7_s0_readdata),   //                                        .readdata
-		.pio64_in_8_s0_read                            (mm_interconnect_1_pio64_in_8_s0_read),       //                           pio64_in_8_s0.read
-		.pio64_in_8_s0_readdata                        (mm_interconnect_1_pio64_in_8_s0_readdata),   //                                        .readdata
-		.pio64_out_0_s0_write                          (mm_interconnect_1_pio64_out_0_s0_write),     //                          pio64_out_0_s0.write
-		.pio64_out_0_s0_writedata                      (mm_interconnect_1_pio64_out_0_s0_writedata), //                                        .writedata
-		.pio64_out_1_s0_write                          (mm_interconnect_1_pio64_out_1_s0_write),     //                          pio64_out_1_s0.write
-		.pio64_out_1_s0_writedata                      (mm_interconnect_1_pio64_out_1_s0_writedata), //                                        .writedata
-		.pio64_out_2_s0_write                          (mm_interconnect_1_pio64_out_2_s0_write),     //                          pio64_out_2_s0.write
-		.pio64_out_2_s0_writedata                      (mm_interconnect_1_pio64_out_2_s0_writedata)  //                                        .writedata
+		.clk_0_clk_clk                                 (clk_clk),                                       //                               clk_0_clk.clk
+		.mm_bridge_0_reset_reset_bridge_in_reset_reset (rst_controller_reset_out_reset),                // mm_bridge_0_reset_reset_bridge_in_reset.reset
+		.mm_bridge_0_m0_address                        (mm_bridge_0_m0_address),                        //                          mm_bridge_0_m0.address
+		.mm_bridge_0_m0_waitrequest                    (mm_bridge_0_m0_waitrequest),                    //                                        .waitrequest
+		.mm_bridge_0_m0_burstcount                     (mm_bridge_0_m0_burstcount),                     //                                        .burstcount
+		.mm_bridge_0_m0_byteenable                     (mm_bridge_0_m0_byteenable),                     //                                        .byteenable
+		.mm_bridge_0_m0_read                           (mm_bridge_0_m0_read),                           //                                        .read
+		.mm_bridge_0_m0_readdata                       (mm_bridge_0_m0_readdata),                       //                                        .readdata
+		.mm_bridge_0_m0_readdatavalid                  (mm_bridge_0_m0_readdatavalid),                  //                                        .readdatavalid
+		.mm_bridge_0_m0_write                          (mm_bridge_0_m0_write),                          //                                        .write
+		.mm_bridge_0_m0_writedata                      (mm_bridge_0_m0_writedata),                      //                                        .writedata
+		.mm_bridge_0_m0_debugaccess                    (mm_bridge_0_m0_debugaccess),                    //                                        .debugaccess
+		.adc_0_adc_slave_address                       (mm_interconnect_1_adc_0_adc_slave_address),     //                         adc_0_adc_slave.address
+		.adc_0_adc_slave_write                         (mm_interconnect_1_adc_0_adc_slave_write),       //                                        .write
+		.adc_0_adc_slave_read                          (mm_interconnect_1_adc_0_adc_slave_read),        //                                        .read
+		.adc_0_adc_slave_readdata                      (mm_interconnect_1_adc_0_adc_slave_readdata),    //                                        .readdata
+		.adc_0_adc_slave_writedata                     (mm_interconnect_1_adc_0_adc_slave_writedata),   //                                        .writedata
+		.adc_0_adc_slave_waitrequest                   (mm_interconnect_1_adc_0_adc_slave_waitrequest), //                                        .waitrequest
+		.pio64_in_0_s0_read                            (mm_interconnect_1_pio64_in_0_s0_read),          //                           pio64_in_0_s0.read
+		.pio64_in_0_s0_readdata                        (mm_interconnect_1_pio64_in_0_s0_readdata),      //                                        .readdata
+		.pio64_in_1_s0_read                            (mm_interconnect_1_pio64_in_1_s0_read),          //                           pio64_in_1_s0.read
+		.pio64_in_1_s0_readdata                        (mm_interconnect_1_pio64_in_1_s0_readdata),      //                                        .readdata
+		.pio64_in_2_s0_read                            (mm_interconnect_1_pio64_in_2_s0_read),          //                           pio64_in_2_s0.read
+		.pio64_in_2_s0_readdata                        (mm_interconnect_1_pio64_in_2_s0_readdata),      //                                        .readdata
+		.pio64_in_3_s0_read                            (mm_interconnect_1_pio64_in_3_s0_read),          //                           pio64_in_3_s0.read
+		.pio64_in_3_s0_readdata                        (mm_interconnect_1_pio64_in_3_s0_readdata),      //                                        .readdata
+		.pio64_in_4_s0_read                            (mm_interconnect_1_pio64_in_4_s0_read),          //                           pio64_in_4_s0.read
+		.pio64_in_4_s0_readdata                        (mm_interconnect_1_pio64_in_4_s0_readdata),      //                                        .readdata
+		.pio64_in_5_s0_read                            (mm_interconnect_1_pio64_in_5_s0_read),          //                           pio64_in_5_s0.read
+		.pio64_in_5_s0_readdata                        (mm_interconnect_1_pio64_in_5_s0_readdata),      //                                        .readdata
+		.pio64_in_6_s0_read                            (mm_interconnect_1_pio64_in_6_s0_read),          //                           pio64_in_6_s0.read
+		.pio64_in_6_s0_readdata                        (mm_interconnect_1_pio64_in_6_s0_readdata),      //                                        .readdata
+		.pio64_in_7_s0_read                            (mm_interconnect_1_pio64_in_7_s0_read),          //                           pio64_in_7_s0.read
+		.pio64_in_7_s0_readdata                        (mm_interconnect_1_pio64_in_7_s0_readdata),      //                                        .readdata
+		.pio64_in_8_s0_read                            (mm_interconnect_1_pio64_in_8_s0_read),          //                           pio64_in_8_s0.read
+		.pio64_in_8_s0_readdata                        (mm_interconnect_1_pio64_in_8_s0_readdata),      //                                        .readdata
+		.pio64_out_0_s0_write                          (mm_interconnect_1_pio64_out_0_s0_write),        //                          pio64_out_0_s0.write
+		.pio64_out_0_s0_writedata                      (mm_interconnect_1_pio64_out_0_s0_writedata),    //                                        .writedata
+		.pio64_out_1_s0_write                          (mm_interconnect_1_pio64_out_1_s0_write),        //                          pio64_out_1_s0.write
+		.pio64_out_1_s0_writedata                      (mm_interconnect_1_pio64_out_1_s0_writedata),    //                                        .writedata
+		.pio64_out_2_s0_write                          (mm_interconnect_1_pio64_out_2_s0_write),        //                          pio64_out_2_s0.write
+		.pio64_out_2_s0_writedata                      (mm_interconnect_1_pio64_out_2_s0_writedata)     //                                        .writedata
 	);
 
 	altera_reset_controller #(
