@@ -1,5 +1,8 @@
 	component soc_system is
 		port (
+			adder_a_export          : out   std_logic_vector(63 downto 0);                    -- export
+			adder_b_export          : out   std_logic_vector(63 downto 0);                    -- export
+			adder_sum_export        : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
 			clk_clk                 : in    std_logic                     := 'X';             -- clk
 			hps_0_h2f_reset_reset_n : out   std_logic;                                        -- reset_n
 			memory_mem_a            : out   std_logic_vector(14 downto 0);                    -- mem_a
@@ -19,14 +22,23 @@
 			memory_mem_dm           : out   std_logic_vector(3 downto 0);                     -- mem_dm
 			memory_oct_rzqin        : in    std_logic                     := 'X';             -- oct_rzqin
 			reset_reset_n           : in    std_logic                     := 'X';             -- reset_n
-			adder_a_export          : out   std_logic_vector(63 downto 0);                    -- export
-			adder_b_export          : out   std_logic_vector(63 downto 0);                    -- export
-			adder_sum_export        : in    std_logic_vector(63 downto 0) := (others => 'X')  -- export
+			adc_channel_0_export    : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
+			adc_channel_1_export    : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
+			adc_channel_2_export    : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
+			adc_channel_3_export    : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
+			adc_channel_4_export    : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
+			adc_channel_5_export    : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
+			adc_channel_6_export    : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
+			adc_channel_7_export    : in    std_logic_vector(63 downto 0) := (others => 'X'); -- export
+			adc_leds_export         : out   std_logic_vector(63 downto 0)                     -- export
 		);
 	end component soc_system;
 
 	u0 : component soc_system
 		port map (
+			adder_a_export          => CONNECTED_TO_adder_a_export,          --         adder_a.export
+			adder_b_export          => CONNECTED_TO_adder_b_export,          --         adder_b.export
+			adder_sum_export        => CONNECTED_TO_adder_sum_export,        --       adder_sum.export
 			clk_clk                 => CONNECTED_TO_clk_clk,                 --             clk.clk
 			hps_0_h2f_reset_reset_n => CONNECTED_TO_hps_0_h2f_reset_reset_n, -- hps_0_h2f_reset.reset_n
 			memory_mem_a            => CONNECTED_TO_memory_mem_a,            --          memory.mem_a
@@ -46,8 +58,14 @@
 			memory_mem_dm           => CONNECTED_TO_memory_mem_dm,           --                .mem_dm
 			memory_oct_rzqin        => CONNECTED_TO_memory_oct_rzqin,        --                .oct_rzqin
 			reset_reset_n           => CONNECTED_TO_reset_reset_n,           --           reset.reset_n
-			adder_a_export          => CONNECTED_TO_adder_a_export,          --         adder_a.export
-			adder_b_export          => CONNECTED_TO_adder_b_export,          --         adder_b.export
-			adder_sum_export        => CONNECTED_TO_adder_sum_export         --       adder_sum.export
+			adc_channel_0_export    => CONNECTED_TO_adc_channel_0_export,    --   adc_channel_0.export
+			adc_channel_1_export    => CONNECTED_TO_adc_channel_1_export,    --   adc_channel_1.export
+			adc_channel_2_export    => CONNECTED_TO_adc_channel_2_export,    --   adc_channel_2.export
+			adc_channel_3_export    => CONNECTED_TO_adc_channel_3_export,    --   adc_channel_3.export
+			adc_channel_4_export    => CONNECTED_TO_adc_channel_4_export,    --   adc_channel_4.export
+			adc_channel_5_export    => CONNECTED_TO_adc_channel_5_export,    --   adc_channel_5.export
+			adc_channel_6_export    => CONNECTED_TO_adc_channel_6_export,    --   adc_channel_6.export
+			adc_channel_7_export    => CONNECTED_TO_adc_channel_7_export,    --   adc_channel_7.export
+			adc_leds_export         => CONNECTED_TO_adc_leds_export          --        adc_leds.export
 		);
 

@@ -44,6 +44,16 @@ wire [6:0]	fpga_led_internal;
 wire [63:0] adder_a_export;
 wire [63:0] adder_b_export;
 wire [63:0] adder_sum_export;
+wire [63:0] adc_channel_0_export;
+wire [63:0] adc_channel_1_export;
+wire [63:0] adc_channel_2_export;
+wire [63:0] adc_channel_3_export;
+wire [63:0] adc_channel_4_export;
+wire [63:0] adc_channel_5_export;
+wire [63:0] adc_channel_6_export;
+wire [63:0] adc_channel_7_export;
+wire [63:0] adc_leds_export;
+
 
 // connection of internal logics
 assign LED[7: 1] = fpga_led_internal;
@@ -55,6 +65,18 @@ simple_adder my_adder(
   .sum(adder_sum_export)
 );
 
+write_memory my_writer(
+  .in(adc_leds_export),
+  .ch0(adc_channel_0_export),
+  .ch1(adc_channel_1_export),
+  .ch2(adc_channel_2_export),
+  .ch3(adc_channel_3_export),
+  .ch4(adc_channel_4_export),
+  .ch5(adc_channel_5_export),
+  .ch6(adc_channel_6_export),
+  .ch7(adc_channel_7_export)
+);
+
 
 //=======================================================
 //  Structural coding
@@ -64,6 +86,16 @@ soc_system u0(
 		  .adder_a_export(adder_a_export),
 		  .adder_b_export(adder_b_export),
 		  .adder_sum_export(adder_sum_export),
+               // Write Memory
+		  .adc_leds_export(adc_leds_export),
+		  .adc_channel_0_export(adc_channel_0_export),
+		  .adc_channel_1_export(adc_channel_1_export),
+		  .adc_channel_2_export(adc_channel_2_export),
+		  .adc_channel_3_export(adc_channel_3_export),
+		  .adc_channel_4_export(adc_channel_4_export),
+		  .adc_channel_5_export(adc_channel_5_export),
+		  .adc_channel_6_export(adc_channel_6_export),
+		  .adc_channel_7_export(adc_channel_7_export),
                //Clock&Reset
                .clk_clk(FPGA_CLK1_50),                                      //                            clk.clk
                .reset_reset_n(hps_fpga_reset_n),                            //                          reset.reset_n

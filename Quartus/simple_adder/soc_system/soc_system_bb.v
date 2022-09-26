@@ -1,5 +1,8 @@
 
 module soc_system (
+	adder_a_export,
+	adder_b_export,
+	adder_sum_export,
 	clk_clk,
 	hps_0_h2f_reset_reset_n,
 	memory_mem_a,
@@ -19,10 +22,19 @@ module soc_system (
 	memory_mem_dm,
 	memory_oct_rzqin,
 	reset_reset_n,
-	adder_a_export,
-	adder_b_export,
-	adder_sum_export);	
+	adc_channel_0_export,
+	adc_channel_1_export,
+	adc_channel_2_export,
+	adc_channel_3_export,
+	adc_channel_4_export,
+	adc_channel_5_export,
+	adc_channel_6_export,
+	adc_channel_7_export,
+	adc_leds_export);	
 
+	output	[63:0]	adder_a_export;
+	output	[63:0]	adder_b_export;
+	input	[63:0]	adder_sum_export;
 	input		clk_clk;
 	output		hps_0_h2f_reset_reset_n;
 	output	[14:0]	memory_mem_a;
@@ -42,7 +54,13 @@ module soc_system (
 	output	[3:0]	memory_mem_dm;
 	input		memory_oct_rzqin;
 	input		reset_reset_n;
-	output	[63:0]	adder_a_export;
-	output	[63:0]	adder_b_export;
-	input	[63:0]	adder_sum_export;
+	input	[63:0]	adc_channel_0_export;
+	input	[63:0]	adc_channel_1_export;
+	input	[63:0]	adc_channel_2_export;
+	input	[63:0]	adc_channel_3_export;
+	input	[63:0]	adc_channel_4_export;
+	input	[63:0]	adc_channel_5_export;
+	input	[63:0]	adc_channel_6_export;
+	input	[63:0]	adc_channel_7_export;
+	output	[63:0]	adc_leds_export;
 endmodule
