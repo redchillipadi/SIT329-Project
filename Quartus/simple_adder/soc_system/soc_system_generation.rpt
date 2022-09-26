@@ -90,7 +90,7 @@ Warning: soc_system.hps_0: set_interface_assignment: Interface "hps_io" does not
 Info: soc_system: Generating soc_system "soc_system" for QUARTUS_SYNTH
 Info: Interconnect is inserted between master hps_0.h2f_axi_master and slave mm_bridge_0.s0 because the master is of type axi and the slave is of type avalon.
 Info: adc_0: Starting Generation of ADC Controller for DE-series Board
-Info: adc_0: /home/adrian/intelFPGA_lite/21.1/ip/altera/university_program/input_output/altera_up_avalon_adc/hdl/altera_up_avalon_adv_adc.v /tmp/alt9261_4076431280259906095.dir/0002_sopcgen/soc_system_adc_0.v
+Info: adc_0: /home/adrian/intelFPGA_lite/21.1/ip/altera/university_program/input_output/altera_up_avalon_adc/hdl/altera_up_avalon_adv_adc.v /tmp/alt9261_4660293097769549718.dir/0035_sopcgen/soc_system_adc_0.v
 Info: adc_0: "soc_system" instantiated altera_up_avalon_adc "adc_0"
 Info: hps_0: "Running  for module: hps_0"
 Info: hps_0: HPS Main PLL counter settings: n = 0  m = 63
