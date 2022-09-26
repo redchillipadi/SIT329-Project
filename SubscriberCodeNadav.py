@@ -5,7 +5,7 @@ from datetime import datetime
 import pandas as pd
 
 #change path accordingly 
-PATH = '/Users/nadav/Desktop/Uni/2022_tri_2/SIT329/Project/code/SIT329-Project/temp/testingCSVfiles/'
+PATH = '/Users/nadav/Desktop/Uni/2022_tri_2/SIT329/Project/code/SIT329-Projectç/testingCSVfiles/'
 
 dateTimenow = f"{datetime.now() :%Y-%m-%d_%H-%M-%S}"
 NAME = f"Exercise_Log_{dateTimenow}"

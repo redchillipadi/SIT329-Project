@@ -32,14 +32,14 @@ Inputs =  np.random.randint(1, 10, size=(4, 15))
 # Each row is a sensor | Input[0] = sensor 1...
 numberOfSensors = 4
 numberOfsamples = 100
-Inputs =  np.random.randint(1, 10, size=(numberOfSensors, numberOfsamples))
+Inputs =  np.random.randint(0, 4095, size=(numberOfSensors, numberOfsamples))
 
 Matrix = [('TopTube',[True,False,True,True]),
             ('Pantani',[True,False,False,False]),
             ('Froome',[True,False,True,False]),
             ('Elbows',[False,True,False,False])]
  
-threshold = [4,6,3,5]
+threshold = [2000, 2000, 2000, 2000]
 # print(Inputs)
 
 
