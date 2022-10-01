@@ -17,9 +17,6 @@ def on_connect(client, userdata, flags, rc):
     else:
         print(f"Connected fail with code {rc}")
 
- 
- 
- 
 Position = ["sitting", "standing" , "crossbar" ]
 
 # Testing inputs to simulate 4 sensors. 
@@ -34,14 +31,19 @@ numberOfSensors = 4
 numberOfsamples = 100
 Inputs =  np.random.randint(0, 4095, size=(numberOfSensors, numberOfsamples))
 
+# Decision matrix - created from body position table
 Matrix = [('TopTube',[True,False,True,True]),
             ('Pantani',[True,False,False,False]),
             ('Froome',[True,False,True,False]),
             ('Elbows',[False,True,False,False])]
- 
+
 threshold = [2000, 2000, 2000, 2000]
 # print(Inputs)
 
+
+# Threshold values for each sensor
+threshold = [2000, 2000, 2000, 2000]
+# print(Inputs)
 
 # #GPIO Mode (BOARD / BCM)
 # GPIO.setmode(GPIO.BCM)
@@ -90,7 +92,6 @@ def publishState( matrix,  timerLapsed):
     
     toSend = json.dumps(posDict)
     print(f'Sending {matrix} with time {temp}')
-
     publish.single("PositionCheck", toSend , hostname="test.mosquitto.org")
      
     
@@ -110,7 +111,7 @@ if  __name__ == '__main__':
                 # start timer to check each state duration   
                 start = time.time()
             
-
+            # Position detection algorithm
             for i in range(numberOfsamples):
                 Dictionary = [False , False , False , False ]
                 for j in range(len(Inputs)):
@@ -130,12 +131,9 @@ if  __name__ == '__main__':
                             state = POS
                 time.sleep(0.5)
 
+            # Flag to signal shutdown procedure 
             publishState("End of Session",0)
             time.sleep(3)
-
-
-
-
 
             # dist = distance()
             # av.append(dist)
@@ -172,12 +170,7 @@ if  __name__ == '__main__':
 
     except KeyboardInterrupt:
         print("Measurement stopped by User")
+        # Second method to signal shutdown procedure
         publishState("End of Session",0)
         time.sleep(3)
         # GPIO.cleanup()
-
-
-
-
-
-

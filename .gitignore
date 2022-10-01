@@ -10,3 +10,4 @@ db/
 *.qsf
 *.qpf
 *_dump.txt
+.DS_Store
